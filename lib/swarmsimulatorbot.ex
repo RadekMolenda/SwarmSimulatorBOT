@@ -15,6 +15,20 @@ defmodule Swarmsimulatorbot do
     :ok
   end
 
+  def dummy_grow do
+    units_size = length(units) - 1
+    Enum.each(0..(units_size), fn(_) ->
+      units
+      |> List.last
+      |> find_within_element(:tag, "a")
+      |> click
+
+      find_all_elements(:css, ".btn")
+      |> List.last
+      |> click
+    end)
+  end
+
   def screenshot(path) do
     take_screenshot("screenshots/#{path}")
   end

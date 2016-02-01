@@ -11,11 +11,11 @@ defmodule SwarmsimulatorbotTest do
 
   test "having 0 drones at the beginning" do
     Swarmsimulatorbot.start
-    text = Swarmsimulatorbot.units
+    drone_text = Swarmsimulatorbot.units
     |> Enum.at(2)
     |> inner_text
 
-    assert text =~ ~r/Drone.*0/
+    assert drone_text =~ ~r/Drone.*0/
     Swarmsimulatorbot.stop
   end
 
@@ -25,6 +25,17 @@ defmodule SwarmsimulatorbotTest do
     Swarmsimulatorbot.screenshot("test.png")
     assert File.exists?(f)
     File.rm(f)
+    Swarmsimulatorbot.stop
+  end
+
+  test "#dummy_grow grows the swarm" do
+    Swarmsimulatorbot.start
+    Swarmsimulatorbot.dummy_grow
+    drone_text = Swarmsimulatorbot.units
+    |> Enum.at(2)
+    |> inner_text
+
+    assert drone_text =~ ~r/Drone.*3/
     Swarmsimulatorbot.stop
   end
 end
