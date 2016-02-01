@@ -15,6 +15,10 @@ defmodule Swarmsimulatorbot do
     :ok
   end
 
+  def screenshot(path) do
+    take_screenshot("screenshots/#{path}")
+  end
+
   def units do
     show_all_units
     find_all_elements(:css, ".unit-table tr")

@@ -18,4 +18,13 @@ defmodule SwarmsimulatorbotTest do
     assert text =~ ~r/Drone.*0/
     Swarmsimulatorbot.stop
   end
+
+  test "screenshot" do
+    Swarmsimulatorbot.start
+    f = "screenshots/test.png"
+    Swarmsimulatorbot.screenshot("test.png")
+    assert File.exists?(f)
+    File.rm(f)
+    Swarmsimulatorbot.stop
+  end
 end
