@@ -31,19 +31,24 @@ defmodule Swarmsimulatorbot do
 
   def dummy_grow do
     units_size = length(units) - 1
-    Enum.each(0..(units_size), fn(_) ->
+    Enum.each(0..(units_size), fn(index) ->
       units
-      |> List.last
+      |> Enum.at(index)
       |> find_within_element(:tag, "a")
       |> click
 
-      find_all_elements(:css, ".btn")
+      active_buttons
       |> List.last
       |> click
     end)
   end
 
+  def active_buttons do
+    find_all_elements(:css, "a:not(.disabled).btn")
+  end
+
   def screenshot(path) do
+    show_all_units
     take_screenshot("screenshots/#{path}")
   end
 
