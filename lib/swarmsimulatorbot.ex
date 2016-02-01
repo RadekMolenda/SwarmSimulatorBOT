@@ -7,12 +7,26 @@ defmodule Swarmsimulatorbot do
     Hound.start_session
     navigate_to(@swarm_url)
     execute_script("localStorage.clear()");
-    :ok
+    loop
+    {:ok, self}
   end
 
   def stop do
     Hound.end_session
     :ok
+  end
+
+  defp loop do
+    receive do
+      {:screenshot, path} ->
+        screenshot(path)
+        loop
+      {:grow} ->
+        dummy_grow
+        loop
+      {:stop} ->
+        stop
+    end
   end
 
   def dummy_grow do
