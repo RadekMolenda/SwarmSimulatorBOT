@@ -29,6 +29,7 @@ defmodule Swarmsimulatorbot.Mixfile do
   defp deps do
     [
       {:hound, "~> 0.8"},
+      {:exvcr, "~> 0.7", only: :test}
     ]
   end
 end
