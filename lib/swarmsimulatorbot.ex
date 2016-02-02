@@ -4,7 +4,7 @@ defmodule Swarmsimulatorbot do
   @swarm_url "https://swarmsim.github.io/"
 
   def start do
-    spawn __MODULE__, :init, []
+    spawn_link __MODULE__, :init, []
   end
 
   def init do
