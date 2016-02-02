@@ -4,11 +4,14 @@ defmodule Swarmsimulatorbot do
   @swarm_url "https://swarmsim.github.io/"
 
   def start do
+    spawn __MODULE__, :init, []
+  end
+
+  def init do
     Hound.start_session
     navigate_to(@swarm_url)
     execute_script("localStorage.clear()");
     loop
-    {:ok, self}
   end
 
   def stop do
