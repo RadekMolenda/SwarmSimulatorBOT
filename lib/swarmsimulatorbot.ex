@@ -51,8 +51,7 @@ defmodule Swarmsimulatorbot do
   end
 
   def screenshot(path) do
-    show_all_units
-    take_screenshot("screenshots/#{path}")
+    GenServer.cast(__MODULE__, {:screenshot, path})
   end
 
   def units do
@@ -74,4 +73,10 @@ defmodule Swarmsimulatorbot do
     |> Enum.map(&inner_text/1)
     { :reply, all_units, state }
   end
+  def handle_cast({:screenshot, path}, state) do
+    show_all_units
+    take_screenshot("screenshots/#{path}")
+    { :noreply, state }
+  end
+
 end

@@ -21,7 +21,7 @@ defmodule SwarmsimulatorbotTest do
   test "screenshot" do
     Swarmsimulatorbot.start
     f = "screenshots/test.png"
-    Swarmsimulatorbot.screenshot("test.png")
+    assert Swarmsimulatorbot.screenshot("test.png") == :ok
     assert File.exists?(f)
     File.rm(f)
     Swarmsimulatorbot.stop
