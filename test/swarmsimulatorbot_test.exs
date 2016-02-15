@@ -31,7 +31,6 @@ defmodule SwarmsimulatorbotTest do
     Swarmsimulatorbot.dummy_grow
     drone_text = Swarmsimulatorbot.units
     |> Enum.at(2)
-    |> inner_text
 
     assert drone_text =~ ~r/Drone.*3/
     Swarmsimulatorbot.stop
