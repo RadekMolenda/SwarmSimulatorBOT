@@ -8,11 +8,11 @@ defmodule Swarmsimulatorbot do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
-  def init do
+  def init(_) do
     Hound.start_session
     navigate_to(@swarm_url)
     execute_script("localStorage.clear()");
-    loop
+    { :ok, __MODULE__ }
   end
 
   def stop do
