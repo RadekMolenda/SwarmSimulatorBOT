@@ -56,8 +56,7 @@ defmodule Swarmsimulatorbot do
   end
 
   def units do
-    show_all_units
-    find_all_elements(:css, ".unit-table tr")
+    GenServer.call(__MODULE__, :units)
   end
 
   defp show_all_units do
@@ -67,5 +66,11 @@ defmodule Swarmsimulatorbot do
 
   defp click_on_text(text) do
     find_element(:link_text, text) |> click
+  end
+
+  def handle_call(:units, _from, state) do
+    show_all_units
+    all_units = find_all_elements(:css, ".unit-table tr")
+    { :reply, all_units, state }
   end
 end
