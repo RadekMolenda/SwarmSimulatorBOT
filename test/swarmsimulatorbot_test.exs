@@ -13,7 +13,6 @@ defmodule SwarmsimulatorbotTest do
     Swarmsimulatorbot.start
     drone_text = Swarmsimulatorbot.units
     |> Enum.at(2)
-    |> inner_text
 
     assert drone_text =~ ~r/Drone.*0/
     Swarmsimulatorbot.stop

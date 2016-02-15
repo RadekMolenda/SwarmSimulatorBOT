@@ -71,6 +71,7 @@ defmodule Swarmsimulatorbot do
   def handle_call(:units, _from, state) do
     show_all_units
     all_units = find_all_elements(:css, ".unit-table tr")
+    |> Enum.map(&inner_text/1)
     { :reply, all_units, state }
   end
 end
