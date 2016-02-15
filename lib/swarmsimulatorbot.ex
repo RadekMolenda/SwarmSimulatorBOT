@@ -19,19 +19,6 @@ defmodule Swarmsimulatorbot do
     Hound.end_session
   end
 
-  defp loop do
-    receive do
-      {:screenshot, path} ->
-        screenshot(path)
-        loop
-      {:grow} ->
-        dummy_grow
-        loop
-      {:stop} ->
-        stop
-    end
-  end
-
   def dummy_grow do
     GenServer.call(__MODULE__, :dummy_grow)
   end
