@@ -5,7 +5,7 @@ defmodule Swarmsimulatorbot do
   @swarm_url "https://swarmsim.github.io/"
 
   def start do
-    spawn_link __MODULE__, :init, []
+    GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
   def init do
@@ -17,7 +17,6 @@ defmodule Swarmsimulatorbot do
 
   def stop do
     Hound.end_session
-    :ok
   end
 
   defp loop do
