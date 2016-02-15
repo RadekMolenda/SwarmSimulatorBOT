@@ -1,5 +1,6 @@
 defmodule Swarmsimulatorbot do
   use Hound.Helpers
+  use GenServer
 
   @swarm_url "https://swarmsim.github.io/"
 
