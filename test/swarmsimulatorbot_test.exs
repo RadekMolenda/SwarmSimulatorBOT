@@ -1,7 +1,6 @@
 defmodule SwarmsimulatorbotTest do
   use ExUnit.Case
   use Hound.Helpers
-  doctest Swarmsimulatorbot
 
   test "Initial number of units should be three" do
     Swarmsimulatorbot.start
@@ -21,7 +20,7 @@ defmodule SwarmsimulatorbotTest do
   test "screenshot" do
     Swarmsimulatorbot.start
     f = "screenshots/test.png"
-    assert Swarmsimulatorbot.screenshot("test.png") == :ok
+    Swarmsimulatorbot.screenshot("test.png")
     assert File.exists?(f)
     File.rm(f)
     Swarmsimulatorbot.stop
