@@ -4,7 +4,7 @@ defmodule Swarmsimulatorbot.Cli do
 
   use GenServer
 
-  def start do
+  def start_link do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
 

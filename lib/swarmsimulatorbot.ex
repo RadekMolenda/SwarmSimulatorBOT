@@ -4,7 +4,7 @@ defmodule Swarmsimulatorbot do
 
   @swarm_url "https://swarmsim.github.io/"
 
-  def start do
+  def start_link do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
