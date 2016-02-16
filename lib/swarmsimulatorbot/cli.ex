@@ -1,5 +1,5 @@
 defmodule Swarmsimulatorbot.Cli do
-  @tick 1000
+  @tick 10000
   @screenshot_tick 10000
 
   use GenServer
@@ -17,7 +17,7 @@ defmodule Swarmsimulatorbot.Cli do
   def handle_info(:grow, state) do
     Swarmsimulatorbot.dummy_grow
     Process.send_after(self(), :grow, @tick)
-    {:noreply, state}
+    { :noreply, state, 20_000 }
   end
 
   def handle_info(:screenshot, state) do

@@ -3,6 +3,7 @@ defmodule Swarmsimulatorbot do
   use GenServer
 
   @swarm_url "https://swarmsim.github.io/"
+  @timeout 20_000
 
   def start_link do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
@@ -20,11 +21,11 @@ defmodule Swarmsimulatorbot do
   end
 
   def dummy_grow do
-    GenServer.call(__MODULE__, :dummy_grow)
+    GenServer.call(__MODULE__, :dummy_grow, @timeout)
   end
 
   def screenshot(path) do
-    GenServer.call(__MODULE__, {:screenshot, path})
+    GenServer.call(__MODULE__, {:screenshot, path}, @timeout)
   end
 
   def units do
@@ -46,7 +47,7 @@ defmodule Swarmsimulatorbot do
       |> List.last
       |> click
     end)
-    { :reply, all_units, state }
+    { :reply, all_units, state, :hibernate }
   end
   def handle_call(:units, _from, state) do
     show_all_units
