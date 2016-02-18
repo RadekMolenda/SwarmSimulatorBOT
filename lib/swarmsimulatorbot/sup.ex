@@ -5,8 +5,8 @@ defmodule Swarmsimulatorbot.Sup do
     import Supervisor.Spec, warn: false
 
     children = [
-      worker(Swarmsimulatorbot.Cli, []),
-      worker(Swarmsimulatorbot, [])
+      worker(Swarmsimulatorbot, []),
+      worker(Swarmsimulatorbot.Cli, [])
     ]
 
     opts = [strategy: :one_for_one, name: Swarmsimulatorbot.Supervisor]
