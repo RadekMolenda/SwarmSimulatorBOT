@@ -33,6 +33,18 @@ defmodule Swarmsimulatorbot do
     GenServer.cast(__MODULE__, :save)
   end
 
+  def load do
+    GenServer.call(__MODULE__, :load)
+  end
+
+  def hande_call(:load, _from, state) do
+    if File.exists?(@save_file) do
+      navigate_to(@options)
+      load_saved_data
+    end
+    { :reply, nil, state }
+  end
+
   def handle_cast(:save, state) do
     navigate_to(@options)
     export_saved_data
