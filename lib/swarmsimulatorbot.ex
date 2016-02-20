@@ -4,6 +4,7 @@ defmodule Swarmsimulatorbot do
 
   @swarm_url "https://swarmsim.github.io"
   @all_units "#{@swarm_url}/#/tab/all"
+  @options "#{@swarm_url}/#/options"
   @timeout 20_000
 
   def start_link do
@@ -53,6 +54,10 @@ defmodule Swarmsimulatorbot do
 
   defp go_to_all_units do
     navigate_to(@all_units)
+  end
+
+  defp go_to_options do
+    navigate_to(@options)
   end
 
   defp click_on_text(text) do
