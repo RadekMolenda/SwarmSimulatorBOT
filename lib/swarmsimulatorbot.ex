@@ -10,7 +10,6 @@ defmodule Swarmsimulatorbot do
   end
 
   def init(_args) do
-    Application.ensure_all_started(:hound)
     Hound.start_session()
     navigate_to(@swarm_url)
     execute_script("localStorage.clear()");

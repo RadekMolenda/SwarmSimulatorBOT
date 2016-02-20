@@ -11,8 +11,10 @@ defmodule Swarmsimulatorbot.Mixfile do
   end
 
   def application do
-    [mod: {Swarmsimulatorbot.Sup, []},
-     registered: [ Swarmsimulatorbot, Swarmsimulatorbot.Cli ]
+    [
+      mod: {Swarmsimulatorbot.Sup, []},
+      registered: [ Swarmsimulatorbot, Swarmsimulatorbot.Cli ],
+      applications: [:logger, :hound]
     ]
   end
 
