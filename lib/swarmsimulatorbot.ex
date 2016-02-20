@@ -28,10 +28,6 @@ defmodule Swarmsimulatorbot do
     GenServer.call(__MODULE__, {:screenshot, path}, @timeout)
   end
 
-  def units do
-    GenServer.call(__MODULE__, :units)
-  end
-
   def handle_call(:dummy_grow, _from, state) do
     show_all_units
     all_units = find_all_elements(:css, ".unit-table tr")
