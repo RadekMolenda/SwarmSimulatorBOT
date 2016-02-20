@@ -45,12 +45,7 @@ defmodule Swarmsimulatorbot do
     end)
     { :reply, all_units, state, :hibernate }
   end
-  def handle_call(:units, _from, state) do
-    show_all_units
-    all_units = find_all_elements(:css, ".unit-table tr")
-    |> Enum.map(&inner_text/1)
-    { :reply, all_units, state }
-  end
+
   def handle_call({:screenshot, path}, _from, state) do
     show_all_units
     { :reply, take_screenshot("screenshots/#{path}"), state }
