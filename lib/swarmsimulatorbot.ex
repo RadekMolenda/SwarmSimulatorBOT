@@ -5,6 +5,7 @@ defmodule Swarmsimulatorbot do
   @swarm_url "https://swarmsim.github.io"
   @all_units "#{@swarm_url}/#/tab/all"
   @options "#{@swarm_url}/#/options"
+  @save_file "save/save.dat"
 
   def start_link do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
@@ -62,11 +63,24 @@ defmodule Swarmsimulatorbot do
     { :noreply, state }
   end
 
-  defp click_on_text(text) do
-    find_element(:link_text, text) |> click
-  end
-
   defp active_buttons do
     find_all_elements(:css, "a:not(.disabled).btn")
+  end
+
+  defp export_saved_data do
+    export_field_value
+    |> save_to_file
+  end
+
+  defp export_field_value do
+    find_element(:id, "export")
+    |> attribute_value("value")
+  end
+
+  defp save_to_file(value) do
+    {:ok, file} = File.open @save_file, [:write]
+    IO.binwrite file, value
+    File.close(file)
+    :ok
   end
 end
