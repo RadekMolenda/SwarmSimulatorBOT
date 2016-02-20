@@ -5,6 +5,7 @@ defmodule Swarmsimulatorbot do
   @swarm_url "https://swarmsim.github.io"
   @all_units "#{@swarm_url}/#/tab/all"
   @options "#{@swarm_url}/#/options"
+  @save_file "save/save.dat"
 
   def start_link do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
@@ -30,6 +31,18 @@ defmodule Swarmsimulatorbot do
 
   def save do
     GenServer.cast(__MODULE__, :save)
+  end
+
+  def load_game do
+    GenServer.cast(__MODULE__, :load_game)
+  end
+
+  def handle_cast(:load_game, state) do
+    if File.exists?(@save_file) do
+      navigate_to(@options)
+      load_saved_data
+    end
+    { :noreply, state }
   end
 
   def handle_cast(:save, state) do
@@ -77,9 +90,24 @@ defmodule Swarmsimulatorbot do
   end
 
   defp save_to_file(value) do
-    {:ok, file} = File.open "save/save.dat", [:write]
+    {:ok, file} = File.open @save_file, [:write]
     IO.binwrite file, value
     File.close(file)
     :ok
+  end
+
+  defp load_saved_data do
+    import_data
+    |> import_to_game
+  end
+
+  defp import_data do
+    File.read! @save_file
+  end
+
+  defp import_to_game(data) do
+    element = find_element(:id, "export")
+    clear_field(element)
+    input_into_field(element, data)
   end
 end
