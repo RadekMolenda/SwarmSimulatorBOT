@@ -62,11 +62,24 @@ defmodule Swarmsimulatorbot do
     { :noreply, state }
   end
 
-  defp click_on_text(text) do
-    find_element(:link_text, text) |> click
-  end
-
   defp active_buttons do
     find_all_elements(:css, "a:not(.disabled).btn")
+  end
+
+  defp export_saved_data do
+    export_field_value
+    |> save_to_file
+  end
+
+  defp export_field_value do
+    find_element(:id, "export")
+    |> attribute_value("value")
+  end
+
+  defp save_to_file(value) do
+    {:ok, file} = File.open "save/save.dat", [:write]
+    IO.binwrite file, value
+    File.close(file)
+    :ok
   end
 end
