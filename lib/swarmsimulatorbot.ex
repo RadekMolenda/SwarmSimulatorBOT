@@ -29,11 +29,11 @@ defmodule Swarmsimulatorbot do
   end
 
   def handle_call(:dummy_grow, _from, state) do
-    show_all_units
+    go_to_all_units
     all_units = find_all_elements(:css, ".unit-table tr")
     units_size = length(all_units) - 1
     Enum.each(0..(units_size), fn(index) ->
-      show_all_units
+      go_to_all_units
       find_all_elements(:css, ".unit-table tr")
       |> Enum.at(index)
       |> find_within_element(:tag, "a")
@@ -47,11 +47,11 @@ defmodule Swarmsimulatorbot do
   end
 
   def handle_call({:screenshot, path}, _from, state) do
-    show_all_units
+    go_to_all_units
     { :reply, take_screenshot("screenshots/#{path}"), state }
   end
 
-  defp show_all_units do
+  defp go_to_all_units do
     navigate_to(@all_units)
   end
 
