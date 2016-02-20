@@ -28,12 +28,22 @@ defmodule Swarmsimulatorbot do
     GenServer.cast(__MODULE__, {:screenshot, path})
   end
 
+  def save do
+    GenServer.cast(__MODULE__, :save)
+  end
+
+  def handle_cast(:save, state) do
+    navigate_to(@options)
+    export_saved_data
+    {:noreply, state}
+  end
+
   def handle_cast(:dummy_grow, state) do
-    go_to_all_units
+    navigate_to(@all_units)
     all_units = find_all_elements(:css, ".unit-table tr")
     units_size = length(all_units) - 1
     Enum.each(0..(units_size), fn(index) ->
-      go_to_all_units
+      navigate_to(@all_units)
       find_all_elements(:css, ".unit-table tr")
       |> Enum.at(index)
       |> find_within_element(:tag, "a")
@@ -47,17 +57,9 @@ defmodule Swarmsimulatorbot do
   end
 
   def handle_cast({:screenshot, path}, state) do
-    go_to_all_units
+    navigate_to(@all_units)
     take_screenshot("screenshots/#{path}")
     { :noreply, state }
-  end
-
-  defp go_to_all_units do
-    navigate_to(@all_units)
-  end
-
-  defp go_to_options do
-    navigate_to(@options)
   end
 
   defp click_on_text(text) do
