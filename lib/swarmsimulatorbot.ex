@@ -13,7 +13,6 @@ defmodule Swarmsimulatorbot do
   def init(_args) do
     Hound.start_session()
     navigate_to(@swarm_url)
-    execute_script("localStorage.clear()");
     { :ok, __MODULE__ }
   end
 
