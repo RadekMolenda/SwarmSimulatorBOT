@@ -5,7 +5,6 @@ defmodule Swarmsimulatorbot do
   @swarm_url "https://swarmsim.github.io"
   @all_units "#{@swarm_url}/#/tab/all"
   @options "#{@swarm_url}/#/options"
-  @timeout 20_000
 
   def start_link do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
@@ -22,14 +21,14 @@ defmodule Swarmsimulatorbot do
   end
 
   def dummy_grow do
-    GenServer.call(__MODULE__, :dummy_grow, @timeout)
+    GenServer.cast(__MODULE__, :dummy_grow)
   end
 
   def screenshot(path) do
-    GenServer.call(__MODULE__, {:screenshot, path}, @timeout)
+    GenServer.cast(__MODULE__, {:screenshot, path})
   end
 
-  def handle_call(:dummy_grow, _from, state) do
+  def handle_cast(:dummy_grow, state) do
     go_to_all_units
     all_units = find_all_elements(:css, ".unit-table tr")
     units_size = length(all_units) - 1
@@ -44,12 +43,13 @@ defmodule Swarmsimulatorbot do
       |> List.last
       |> click
     end)
-    { :reply, all_units, state, :hibernate }
+    { :noreply, state }
   end
 
-  def handle_call({:screenshot, path}, _from, state) do
+  def handle_cast({:screenshot, path}, state) do
     go_to_all_units
-    { :reply, take_screenshot("screenshots/#{path}"), state }
+    take_screenshot("screenshots/#{path}")
+    { :noreply, state }
   end
 
   defp go_to_all_units do
