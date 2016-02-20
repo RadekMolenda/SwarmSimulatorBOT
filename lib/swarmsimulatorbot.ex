@@ -2,7 +2,8 @@ defmodule Swarmsimulatorbot do
   use Hound.Helpers
   use GenServer
 
-  @swarm_url "https://swarmsim.github.io/"
+  @swarm_url "https://swarmsim.github.io"
+  @all_units "#{@swarm_url}/#/tab/all"
   @timeout 20_000
 
   def start_link do
@@ -61,8 +62,7 @@ defmodule Swarmsimulatorbot do
   end
 
   defp show_all_units do
-    click_on_text("More...")
-    click_on_text("Show all units")
+    navigate_to(@all_units)
   end
 
   defp click_on_text(text) do
