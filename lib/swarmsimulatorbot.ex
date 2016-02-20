@@ -33,16 +33,16 @@ defmodule Swarmsimulatorbot do
     GenServer.cast(__MODULE__, :save)
   end
 
-  def load do
-    GenServer.call(__MODULE__, :load)
+  def load_game do
+    GenServer.cast(__MODULE__, :load_game)
   end
 
-  def hande_call(:load, _from, state) do
+  def handle_cast(:load_game, state) do
     if File.exists?(@save_file) do
       navigate_to(@options)
       load_saved_data
     end
-    { :reply, nil, state }
+    { :noreply, state }
   end
 
   def handle_cast(:save, state) do
@@ -94,5 +94,20 @@ defmodule Swarmsimulatorbot do
     IO.binwrite file, value
     File.close(file)
     :ok
+  end
+
+  defp load_saved_data do
+    import_data
+    |> import_to_game
+  end
+
+  defp import_data do
+    File.read! @save_file
+  end
+
+  defp import_to_game(data) do
+    element = find_element(:id, "export")
+    clear_field(element)
+    input_into_field(element, data)
   end
 end
