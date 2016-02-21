@@ -22,36 +22,36 @@ defmodule Swarmsimulatorbot do
   end
 
   def dummy_grow do
-    GenServer.cast(__MODULE__, :dummy_grow)
+    GenServer.call(__MODULE__, :dummy_grow, :infinity)
   end
 
   def screenshot(path) do
-    GenServer.cast(__MODULE__, {:screenshot, path})
+    GenServer.call(__MODULE__, {:screenshot, path}, :infinity)
   end
 
   def save do
-    GenServer.cast(__MODULE__, :save)
+    GenServer.call(__MODULE__, :save, :infinity)
   end
 
   def load_game do
-    GenServer.cast(__MODULE__, :load_game)
+    GenServer.call(__MODULE__, :load_game, :infinity)
   end
 
-  def handle_cast(:load_game, state) do
+  def handle_call(:load_game, _from, state) do
     if File.exists?(@save_file) do
       navigate_to(@options)
       load_saved_data
     end
-    { :noreply, state }
+    { :reply, nil, state }
   end
 
-  def handle_cast(:save, state) do
+  def handle_call(:save, _from, state) do
     navigate_to(@options)
     export_saved_data
-    {:noreply, state}
+    {:reply, nil, state}
   end
 
-  def handle_cast(:dummy_grow, state) do
+  def handle_call(:dummy_grow, _from, state) do
     navigate_to(@all_units)
     all_units = find_all_elements(:css, ".unit-table tr")
     units_size = length(all_units) - 1
@@ -66,13 +66,13 @@ defmodule Swarmsimulatorbot do
       |> List.last
       |> click
     end)
-    { :noreply, state }
+    { :reply, nil, state }
   end
 
-  def handle_cast({:screenshot, path}, state) do
+  def handle_call({:screenshot, path}, _from, state) do
     navigate_to(@all_units)
     take_screenshot("screenshots/#{path}")
-    { :noreply, state }
+    { :reply, nil, state }
   end
 
   defp active_buttons do
