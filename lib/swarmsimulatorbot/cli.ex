@@ -8,6 +8,7 @@ defmodule Swarmsimulatorbot.Cli do
   end
 
   def init(_) do
+    Swarmsimulatorbot.load_game
     Process.send_after(self(), :tick, @tick)
     {:ok, nil}
   end
