@@ -106,8 +106,9 @@ defmodule Swarmsimulatorbot do
   end
 
   defp import_to_game(data) do
-    element = find_element(:id, "export")
-    clear_field(element)
-    input_into_field(element, data)
+    execute_script("$('#export').val('#{data}')")
+
+    find_element(:id, "export")
+    |> input_into_field(" ")
   end
 end
