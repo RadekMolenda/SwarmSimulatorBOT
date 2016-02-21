@@ -3,8 +3,6 @@ defmodule Swarmsimulatorbot do
   use GenServer
 
   @swarm_url "https://swarmsim.github.io"
-  @all_units "#{@swarm_url}/#/tab/all"
-  @options "#{@swarm_url}/#/options"
   @save_file "save/save.dat"
 
   def start_link do
@@ -39,24 +37,24 @@ defmodule Swarmsimulatorbot do
 
   def handle_call(:load_game, _from, state) do
     if File.exists?(@save_file) do
-      navigate_to(@options)
+      go_to(:options)
       load_saved_data
     end
     { :reply, nil, state }
   end
 
   def handle_call(:save, _from, state) do
-    navigate_to(@options)
+    go_to(:options)
     export_saved_data
     {:reply, nil, state}
   end
 
   def handle_call(:dummy_grow, _from, state) do
-    navigate_to(@all_units)
+    go_to(:all_units)
     all_units = find_all_elements(:css, ".unit-table tr")
     units_size = length(all_units) - 1
     Enum.each(0..(units_size), fn(index) ->
-      navigate_to(@all_units)
+      go_to(:all_units)
       find_all_elements(:css, ".unit-table tr")
       |> Enum.at(index)
       |> find_within_element(:tag, "a")
@@ -70,7 +68,7 @@ defmodule Swarmsimulatorbot do
   end
 
   def handle_call({:screenshot, path}, _from, state) do
-    navigate_to(@all_units)
+    go_to(:all_units)
     take_screenshot("screenshots/#{path}")
     { :reply, nil, state }
   end
@@ -110,5 +108,18 @@ defmodule Swarmsimulatorbot do
 
     find_element(:id, "export")
     |> input_into_field(" ")
+  end
+
+  defp go_to(:options) do
+    click_on_text("More...")
+    click_on_text("Options")
+  end
+  defp go_to(:all_units) do
+    click_on_text("More...")
+    click_on_text("Show all units")
+  end
+
+  defp click_on_text(text) do
+    find_element(:link_text, text) |> click
   end
 end
