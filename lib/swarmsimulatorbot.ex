@@ -2,8 +2,8 @@ defmodule Swarmsimulatorbot do
   use Hound.Helpers
   use GenServer
 
-  @swarm_url "https://swarmsim.github.io"
-  @save_file "save/save.dat"
+  @swarm_url Application.get_env(:swarmsimulatorbot, :swarm_url)
+  @save_file Application.get_env(:swarmsimulatorbot, :save_file)
 
   def start_link do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)

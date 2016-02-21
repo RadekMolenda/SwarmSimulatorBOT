@@ -1,5 +1,5 @@
 defmodule Swarmsimulatorbot.Cli do
-  @tick 10000
+  @tick Application.get_env(:swarmsimulatorbot, :tick)
 
   use GenServer
 
